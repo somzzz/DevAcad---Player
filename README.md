@@ -1,19 +1,16 @@
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
-
 
 public class GameProtocol {
 	boolean Finished;
 	Queue <String> pachet = new LinkedList<String>();
 	String myCurrentCard, hisCurrentCard;
 	String result;
+	boolean wonRound;
 	
 	public GameProtocol (){
 	    Finished = true;
 	    pachet = deck();
+	    wonRound = false;
 	}
 
 	public ArrayList<String> deckGenerator (){
@@ -106,7 +103,9 @@ public class GameProtocol {
 	    	if ( message.get(1).compareTo("WIN") == 0) {
 	    		pachet.add(hisCurrentCard);
 	    		pachet.add(myCurrentCard);
+	    		wonRound = true;
 	    	} else if (message.get(1).compareTo("LOSE") == 0) {
+	    		wonRound = false;
 	    	} else if (message.get(1).compareTo("DRAW") == 0) {
 	    		
 	    	}
@@ -119,7 +118,9 @@ public class GameProtocol {
 	    	if (result.compareTo("WIN") == 0) {
 	    		pachet.add(hisCurrentCard);
 	    		pachet.add(myCurrentCard);
+	    		wonRound = true;
 	    	} else if (result.compareTo("LOSE") == 0) {
+	    		wonRound = false;
 	    	} else if (result.compareTo("DRAW") == 0) {
 	    		
 	    	}
@@ -134,13 +135,20 @@ public class GameProtocol {
     		return "result DRAW";
     	} else if (compareResult == 1) {
     		result = "WIN";
+    		
     		return "result WIN";
     	} else if (compareResult == -1) {
     		result = "LOSE";
+    		wonRound = false;
     		return "result LOSE";
     	}
     	
-    	return result;
+    	if (wonRound) {
+	        myCurrentCard = pachet.remove();
+	        return "war " + myCurrentCard;
+    	}
+    	
+    	return "";
 	}
 	public boolean notFinished (){
 	    return Finished;

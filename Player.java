@@ -28,6 +28,9 @@ public class Player {
 			        if (outputLine.equals("Bye."))
 			        		break;
 			    }
+			    
+			    // Client
+			    
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,3 +39,4 @@ public class Player {
 			       
 	}
 }
+
